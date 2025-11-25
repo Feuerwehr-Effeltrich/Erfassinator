@@ -1,8 +1,24 @@
-import tkinter
-import requests
+"""
+Erfassinator - FW Portal Daten Manager
+
+Haupteinstiegspunkt der Anwendung.
+"""
+
+import tkinter as tk
+
+from backend import DummyBackend
+from main_window import MainWindow
+
 
 def main():
-    print("Hello from erfassinator!")
+    """Haupteinstiegspunkt der Anwendung."""
+    # Backend erstellen (Dummy für MVP)
+    backend = DummyBackend()
+
+    # GUI erstellen und starten
+    root = tk.Tk()
+    app = MainWindow(root, backend)
+    root.mainloop()
 
 
 if __name__ == "__main__":
