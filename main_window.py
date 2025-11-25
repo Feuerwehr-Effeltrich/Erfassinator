@@ -113,6 +113,15 @@ class MainWindow:
         self.progress_label = ttk.Label(action_frame, text="")
         self.progress_label.pack(side=tk.RIGHT, padx=5)
 
+        # Progress bar (always visible to reserve space)
+        progress_container = ttk.Frame(main_frame, height=25)
+        progress_container.grid(row=3, column=0, sticky="ew", pady=(5, 0))
+        progress_container.columnconfigure(0, weight=1)
+        progress_container.grid_propagate(False)
+
+        self.progress_bar = ttk.Progressbar(progress_container, mode="determinate")
+        self.progress_bar.grid(row=0, column=0, sticky="ew")
+
     def _show_login(self):
         """Show login dialog."""
         dialog = LoginDialog(self.root)
@@ -235,19 +244,37 @@ class MainWindow:
 
     def _execute_actions(self, entry_ids: list[int]):
         """Execute actions on given entry IDs."""
-        self.progress_label.config(text=f"Verarbeite {len(entry_ids)} Einträge...")
+        total = len(entry_ids)
+
+        # Reset progress bar
+        self.progress_bar["maximum"] = total
+        self.progress_bar["value"] = 0
+        self.progress_label.config(text="")
+
         self.root.update()
 
+        def progress_callback(current: int, total: int):
+            """Update progress bar from background thread."""
+            self.root.after(0, lambda: self._update_progress(current, total))
+
         def process_thread():
-            results = self.action_processor.process_all(entry_ids)
+            results = self.action_processor.process_all(entry_ids, progress_callback)
             self.root.after(0, lambda: self._handle_action_results(results))
 
         threading.Thread(target=process_thread, daemon=True).start()
+
+    def _update_progress(self, current: int, total: int):
+        """Update progress bar."""
+        self.progress_bar["value"] = current
+        self.root.update()
 
     def _handle_action_results(self, results: dict[int, tuple[bool, str]]):
         """Handle action processing results."""
         success_count = sum(1 for success, _ in results.values() if success)
         total = len(results)
+
+        # Reset progress bar to 0
+        self.progress_bar["value"] = 0
 
         self.progress_label.config(
             text=f"Abgeschlossen: {success_count}/{total} erfolgreich"
@@ -264,8 +291,3 @@ class MainWindow:
                     item,
                     values=(values[0], values[1], values[2], "Erfasst", values[4]),
                 )
-
-        messagebox.showinfo(
-            "Aktion abgeschlossen",
-            f"{total} Einträge verarbeitet\nErfolgreich: {success_count}\nFehlgeschlagen: {total - success_count}",
-        )
