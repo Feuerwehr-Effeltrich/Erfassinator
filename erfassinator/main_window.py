@@ -3,12 +3,12 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import threading
-from backend import Backend, DataEntry
+from erfassinator.backend import Backend, DataEntry
 
-from login_dialog import LoginDialog
-from session_manager import SessionManager
-from data_collector import DataCollector
-from action_processor import ActionProcessor
+from erfassinator.login_dialog import LoginDialog
+from erfassinator.session_manager import SessionManager
+from erfassinator.data_collector import DataCollector
+from erfassinator.action_processor import ActionProcessor
 
 
 class MainWindow:
@@ -289,5 +289,11 @@ class MainWindow:
                 # Update status to "Berichte erwarten Freigabe"
                 self.tree.item(
                     item,
-                    values=(values[0], values[1], values[2], "Berichte erwarten Freigabe", values[4]),
+                    values=(
+                        values[0],
+                        values[1],
+                        values[2],
+                        "Berichte erwarten Freigabe",
+                        values[4],
+                    ),
                 )

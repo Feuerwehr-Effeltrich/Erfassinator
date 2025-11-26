@@ -2,17 +2,23 @@
 
 Gesammeltes Erfassen aller Einsatzberichte im FW Portal.
 
-Genauer: Status von "Berichte in Erfassung" zu "Berichte erwarten Freigabe" setzen.
-
-## Installation
-
-[uv](https://docs.astral.sh/uv/) muss installiert sein.
-
-## Starten
+## Starten (Entwicklung)
 
 ```bash
-uv run main.py
+uv run erfassinator
 ```
+
+## Build für Release
+
+```bash
+python3 build_pyz.py
+```
+
+Erstellt `erfassinator.pyz` und `erfassinator.pyzw` im `dist/` Ordner.
+
+Benutzer brauchen nur Python 3.12+ installiert:
+- **Windows:** `pythonw erfassinator.pyzw`
+- **Linux/macOS:** `python3 erfassinator.pyz`
 
 ## Funktionen
 

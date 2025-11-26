@@ -6,9 +6,9 @@ Haupteinstiegspunkt der Anwendung.
 
 import tkinter as tk
 
-#from backend import DummyBackend
-from backend import FWPortalBackend
-from main_window import MainWindow
+# from erfassinator.backend import DummyBackend
+from erfassinator.backend import FWPortalBackend
+from erfassinator.main_window import MainWindow
 
 
 def main():

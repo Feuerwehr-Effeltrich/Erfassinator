@@ -21,11 +21,11 @@ class SessionManager:
             success = self.backend.login(username, password)
             if success:
                 self._authenticated = True
-                return True, "Login successful"
+                return True, "Login erfolgreich"
             else:
-                return False, "Invalid credentials"
+                return False, "Falsche Anmeldedaten"
         except Exception as e:
-            return False, f"Login failed: {str(e)}"
+            return False, f"Login fehlgeschlagen: {str(e)}"
 
     def logout(self):
         """Logout the current session."""
