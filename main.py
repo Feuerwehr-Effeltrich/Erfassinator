@@ -6,14 +6,15 @@ Haupteinstiegspunkt der Anwendung.
 
 import tkinter as tk
 
-from backend import DummyBackend
+#from backend import DummyBackend
+from backend import FWPortalBackend
 from main_window import MainWindow
 
 
 def main():
     """Haupteinstiegspunkt der Anwendung."""
-    # Backend erstellen (Dummy für MVP)
-    backend = DummyBackend()
+    # Backend erstellen
+    backend = FWPortalBackend()
 
     # GUI erstellen und starten
     root = tk.Tk()

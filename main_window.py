@@ -3,7 +3,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import threading
-from typing import Any
+from backend import Backend, DataEntry
 
 from login_dialog import LoginDialog
 from session_manager import SessionManager
@@ -14,7 +14,7 @@ from action_processor import ActionProcessor
 class MainWindow:
     """Main application window with data table and actions."""
 
-    def __init__(self, root: tk.Tk, backend: Any):
+    def __init__(self, root: tk.Tk, backend: Backend):
         self.root = root
         self.backend = backend
         self.session_manager = SessionManager(backend)
@@ -182,7 +182,7 @@ class MainWindow:
 
         threading.Thread(target=fetch_thread, daemon=True).start()
 
-    def _display_data(self, data: list[Any]):
+    def _display_data(self, data: list[DataEntry]):
         """Display fetched data in the table."""
         self.data_entries = data
         self.tree.delete(*self.tree.get_children())
@@ -286,8 +286,8 @@ class MainWindow:
             entry_id = int(values[0])
 
             if entry_id in results and results[entry_id][0]:
-                # Update status to "Erfasst"
+                # Update status to "Berichte erwarten Freigabe"
                 self.tree.item(
                     item,
-                    values=(values[0], values[1], values[2], "Erfasst", values[4]),
+                    values=(values[0], values[1], values[2], "Berichte erwarten Freigabe", values[4]),
                 )
